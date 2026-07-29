@@ -101,11 +101,12 @@ The model exhibits high confidence across all classes, with minimal false positi
 </p>
 
 ### Explainable AI (Grad-CAM)
-In medical AI, trust is paramount. Grad-CAM visualizes the gradients flowing into the final convolutional layer, highlighting the specific regions of the MRI scan that triggered the model's prediction. 
+In medical AI, trust is paramount. Grad-CAM visualizes the gradients flowing into the final convolutional layer, highlighting the specific regions of the MRI scan that triggered the model's prediction.
 
 <p align="center">
   <img src="assets/grad_cam.png" width="85%" alt="Grad-CAM Visualization">
 </p>
+
 *Observation: The heatmap clearly localizes the tumor mass, confirming the model relies on pathological features rather than dataset artifacts.*
 
 ---
@@ -119,8 +120,116 @@ Inference is served via a high-performance **FastAPI** application.
 * `POST /predict`: Accepts a multipart form data image and returns JSON with class predictions and confidence scores.
 
 ### Local Testing with cURL
+
 ```bash
-curl -X POST [http://127.0.0.1:8000/predict](http://127.0.0.1:8000/predict) \
+curl -X POST http://127.0.0.1:8000/predict \
   -H "accept: application/json" \
   -H "Content-Type: multipart/form-data" \
   -F "file=@sample_mri.png;type=image/png"
+```
+
+### Swagger UI Documentation
+
+Interactive API documentation is automatically generated and accessible at `/docs`.
+
+---
+
+## ⚙️ Quick Start
+
+### 1. Clone & Install
+
+```bash
+git clone https://github.com/Nafisioo/brain-tumor-classification.git
+cd brain-tumor-classification
+
+# Create and activate virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### 2. Training the Models
+
+```bash
+# Train Custom CNN Baseline
+python train.py
+
+# Train ResNet18 (Feature Extraction only)
+python train_resnet18.py
+
+# Train ResNet18 (Full Fine-Tuning)
+python train_resnet18_finetune.py
+```
+
+### 3. Evaluation
+
+```bash
+python evaluate.py
+python resnet_evaluate.py
+```
+
+### 4. Running the API Locally
+
+```bash
+uvicorn api.main:app --reload
+# Access the docs at http://127.0.0.1:8000/docs
+```
+
+### 5. Docker Deployment
+
+```bash
+# Build the image
+docker build -t brain-tumor-api .
+
+# Run the container
+docker run -p 8000:8000 brain-tumor-api
+```
+
+---
+
+## 📁 Project Structure
+
+```plaintext
+brain-tumor-classification/
+├── api/                  # FastAPI application and routing
+├── artifacts/            # Saved model weights (.pt)
+├── configs/              # Hyperparameter and environment configurations
+├── experiments/          # Experimental notebooks and scripts
+├── inference/            # Standalone inference logic
+├── notebooks/            # Jupyter notebooks for EDA and prototyping
+├── outputs/              # Logs, plots, and evaluation metrics
+├── src/                  # Core source code
+│   ├── data/             # Data loaders and transformations
+│   ├── models/           # PyTorch model definitions
+│   ├── training/         # Training loops and optimizers
+│   └── utils/            # Helper functions (metrics, plotting)
+├── tests/                # Unit and integration tests
+├── Dockerfile            # Container configuration
+├── requirements.txt      # Python dependencies
+└── scripts/              # Utility scripts (e.g., asset generation)
+```
+
+---
+
+## 🚀 Future Roadmap
+
+- [ ] **Advanced Architectures:** Evaluate EfficientNet-B3 and Vision Transformers (ViT).
+- [ ] **Performance:** Implement PyTorch Mixed Precision (AMP) training.
+- [ ] **MLOps Integration:** Add MLflow for robust experiment tracking and model registry.
+- [ ] **CI/CD:** Set up GitHub Actions for automated testing and Docker Hub publishing.
+- [ ] **Cloud:** Deploy the Dockerized API to AWS ECS or Google Cloud Run.
+
+---
+
+## 🤝 Acknowledgements
+
+- **Dataset:** Thanks to LuminaAI for maintaining the Brain MRI dataset on Hugging Face.
+- **Frameworks:** Built with the excellent PyTorch and FastAPI ecosystems.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
