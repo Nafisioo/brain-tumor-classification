@@ -1,76 +1,46 @@
-# ======================
 # Python
-# ======================
 __pycache__/
 *.py[cod]
 *.so
+*.egg-info/
 
-
-# ======================
-# Virtual Environment
-# ======================
+# Virtual environment
 .venv/
 
-
-# ======================
 # Jupyter
-# ======================
 .ipynb_checkpoints/
 
-
-# ======================
 # macOS
-# ======================
 .DS_Store
 
-
-# ======================
-# IDE
-# ======================
-.vscode/
-.idea/
-
-
-# ======================
-# Environment
-# ======================
-.env
-
-
-# ======================
 # PyTorch checkpoints
-# ======================
 *.pt
 *.pth
 
-
-# ======================
 # Dataset
-# ======================
 data/
 
+# IDE
+.vscode/
+.idea/
 
-# ======================
-# Generated outputs
-# ======================
+# Logs
+logs/
+*.log
+
+# Environment
+.env
+
+# Outputs
 outputs/
 
+# Generated models
+models/
 
-# ======================
-# Logs
-# ======================
-logs/
-
-
-# ======================
-# Python cache/test
-# ======================
+# Testing
 .pytest_cache/
 .mypy_cache/
 
-
-# ======================
-# Temporary files
-# ======================
-*.tmp
-*.swp
+# Experiment artifacts
+experiments/**/checkpoints/
+experiments/**/logs/
