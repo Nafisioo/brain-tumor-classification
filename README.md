@@ -1,308 +1,126 @@
-# Brain Tumor MRI Classification
+# 🧠 Brain Tumor MRI Classification
 
 <p align="center">
+  <!-- Note: Ensure you have a banner.png in your assets folder, or remove this line -->
   <img src="assets/banner.png" width="100%" alt="Brain MRI Classification Banner">
 </p>
 
 <p align="center">
-
-![Python](https://img.shields.io/badge/Python-3.9+-3776AB?logo=python&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
-
+  <img src="https://img.shields.io/badge/Python-3.9+-3776AB?logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white" alt="PyTorch">
+  <img src="https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
 </p>
 
-## Overview
+> **Author:** [Nafise Bahoosh](https://github.com/Nafisioo) | **Portfolio Project**
 
-An end-to-end deep learning project for **4-class brain MRI classification** using PyTorch. The project follows a production-oriented machine learning workflow from data validation and model development to explainability, FastAPI deployment, and Docker packaging.
+## 📑 Overview
 
-### Highlights
+An end-to-end deep learning pipeline for **4-class brain MRI classification** built with PyTorch. This project bridges the gap between research and production by implementing a complete machine learning lifecycle: starting from custom baseline CNNs, advancing to fine-tuned ResNet18 architectures, validating predictions with Grad-CAM explainability, and deploying the final model via a robust, Dockerized FastAPI microservice.
 
-- End-to-end PyTorch training pipeline
-- Two custom CNN baselines
-- ResNet18 transfer learning and fine-tuning
-- Grad-CAM explainability
-- FastAPI inference API
-- Docker-ready deployment
-- Reproducible experiment tracking
+### 🚀 Key Highlights
+- **Model Development:** Designed custom CNN baselines and utilized transfer learning (ResNet18) to achieve **97.78% accuracy**.
+- **Model Interpretability:** Integrated **Grad-CAM** to visualize spatial attention, ensuring the model focuses on clinically relevant tumor regions rather than background noise.
+- **Production-Ready Deployment:** Built a highly concurrent REST API using **FastAPI** and packaged the environment via **Docker** for seamless deployment.
+- **Reproducibility:** Structured following MLOps best practices with modularized code, strict environment management, and comprehensive evaluation scripts.
 
 ---
 
-# Results
+## 📊 Results & Performance
 
-| Model | Accuracy | Precision | Recall | F1 | Loss |
-|------|------:|------:|------:|------:|------:|
+The fine-tuned ResNet18 significantly outperformed the custom baselines, demonstrating the power of transfer learning on medical imaging data.
+
+| Model | Accuracy | Precision | Recall | F1 Score | Test Loss |
+|:---|---:|---:|---:|---:|---:|
 | CNN Baseline V1 | 81.12% | 82.73% | 81.21% | 81.15% | 0.528 |
 | CNN Baseline V2 | 96.41% | 96.43% | 96.80% | 96.55% | 0.128 |
-| ResNet18 Feature Extraction | 81.80% | 82.05% | 81.89% | 81.88% | 0.458 |
-| **ResNet18 Fine-Tuned** | **97.78%** | **98.04%** | **98.00%** | **98.01%** | **0.066** |
-
----
-
-# Dataset
-
-Four-class Brain MRI dataset.
-
-Classes:
-
-- Glioma
-- Meningioma
-- No Tumor
-- Pituitary Tumor
-
-Dataset split:
-
-| Split | Images |
-|------|------:|
-| Train | 9,401 |
-| Validation | 2,351 |
-| Test | 1,308 |
-
----
-
-# Project Pipeline
+| ResNet18 (Feature Extraction) | 81.80% | 82.05% | 81.89% | 81.88% | 0.458 |
+| **ResNet18 (Fine-Tuned)** | **97.78%** | **98.04%** | **98.00%** | **98.01%** | **0.066** |
 
 <p align="center">
-<img src="assets/readme/pipeline.png" width="95%">
+  <img src="assets/model_comparison.png" width="100%" alt="Model Performance Comparison">
 </p>
 
 ---
 
-# Model Architectures
-
-## CNN Baseline V2
+## 🏗️ System Architecture
 
 <p align="center">
-<img src="assets/readme/cnn_v2.png" width="85%">
-</p>
-
-Features:
-
-- Four convolution blocks
-- Batch Normalization
-- ReLU activations
-- Max Pooling
-- Adaptive Average Pooling
-- Dropout regularization
-- Fully-connected classifier
-
----
-
-## ResNet18 Fine-Tuned
-
-<p align="center">
-<img src="assets/readme/resnet18.png" width="85%">
-</p>
-
-Training strategy:
-
-1. Feature extraction
-2. Progressive fine-tuning
-3. Transfer learning with ImageNet weights
-4. Adam optimizer
-5. Learning-rate scheduling
-6. Checkpointing
-
----
-
-# Training Curves
-
-<p align="center">
-<img src="assets/readme/training_curve.png" width="90%">
+  <img src="assets/architecture.png" width="60%" alt="System Architecture">
 </p>
 
 ---
 
-# Model Comparison
+## 💾 Dataset
+
+The model is trained on a multi-class Brain MRI dataset containing four distinct categories.
+
+- **Classes:** `Glioma`, `Meningioma`, `Pituitary Tumor`, `No Tumor`
+- **Total Images:** 13,060
+
+| Split | Image Count | Percentage |
+|:---|---:|---:|
+| **Train** | 9,401 | ~72% |
+| **Validation** | 2,351 | ~18% |
+| **Test** | 1,308 | ~10% |
+
+---
+
+## 🧠 Model Architectures
+
+### CNN Baseline V2
+A custom-built Convolutional Neural Network designed to establish a performance baseline.
+* **Features:** 4 Convolutional blocks, Batch Normalization, ReLU activations, Max Pooling, Adaptive Average Pooling, and Dropout regularization for overfitting prevention.
 
 <p align="center">
-<img src="assets/readme/model_comparison.png" width="100%">
+  <img src="assets/cnn_v2.png" width="40%" alt="CNN Baseline V2 Architecture">
+</p>
+
+### ResNet18 Fine-Tuned (Production Model)
+Leveraging ImageNet weights, the model was adapted for medical imaging.
+* **Strategy:** Initial feature extraction followed by progressive fine-tuning of deeper layers using the Adam optimizer and dynamic learning-rate scheduling.
+
+<p align="center">
+  <img src="assets/resnet18.png" width="40%" alt="ResNet18 Architecture">
 </p>
 
 ---
 
-# Confusion Matrix
+## 📈 Evaluation & Interpretability
 
+### Training Convergence
 <p align="center">
-<img src="assets/readme/confusion_matrix.png" width="75%">
+  <img src="assets/training_curve.png" width="85%" alt="Training Curves">
 </p>
 
----
-
-# Explainability (Grad-CAM)
-
+### Confusion Matrix
+The model exhibits high confidence across all classes, with minimal false positives between tumor types.
 <p align="center">
-<img src="assets/readme/grad_cam.png" width="100%">
+  <img src="assets/confusion_matrix.png" width="65%" alt="Confusion Matrix">
 </p>
 
-Grad-CAM demonstrates that the fine-tuned ResNet18 focuses on anatomically relevant tumor regions rather than unrelated image background, increasing confidence in the model's decision-making process.
-
----
-
-# API
-
-FastAPI provides REST inference.
-
-## Health
-
-```bash
-GET /health
-```
-
-## Prediction
-
-```bash
-POST /predict
-```
-
-Example:
-
-```bash
-curl -X POST http://127.0.0.1:8000/predict \
--F "file=@sample.png"
-```
-
-Swagger UI
+### Explainable AI (Grad-CAM)
+In medical AI, trust is paramount. Grad-CAM visualizes the gradients flowing into the final convolutional layer, highlighting the specific regions of the MRI scan that triggered the model's prediction. 
 
 <p align="center">
-<img src="assets/readme/swagger.png" width="95%">
+  <img src="assets/grad_cam.png" width="85%" alt="Grad-CAM Visualization">
 </p>
+*Observation: The heatmap clearly localizes the tumor mass, confirming the model relies on pathological features rather than dataset artifacts.*
 
 ---
 
-# Project Structure
+## 🌐 API & Deployment
 
-```text
-brain-tumor-classification/
-├── api/
-├── artifacts/
-├── configs/
-├── experiments/
-├── inference/
-├── notebooks/
-├── outputs/
-├── src/
-│   ├── data/
-│   ├── models/
-│   ├── training/
-│   └── utils/
-├── tests/
-├── Dockerfile
-├── requirements.txt
-├── train.py
-├── train_resnet18.py
-├── train_resnet18_finetune.py
-└── README.md
-```
+Inference is served via a high-performance **FastAPI** application.
 
----
+### API Endpoints
+* `GET /health`: Returns API status and loaded model details.
+* `POST /predict`: Accepts a multipart form data image and returns JSON with class predictions and confidence scores.
 
-# Installation
-
+### Local Testing with cURL
 ```bash
-git clone <repository-url>
-cd brain-tumor-classification
-
-python -m venv .venv
-
-source .venv/bin/activate
-
-pip install -r requirements.txt
-```
-
----
-
-# Training
-
-CNN Baseline
-
-```bash
-python train.py
-```
-
-Transfer Learning
-
-```bash
-python train_resnet18.py
-```
-
-Fine-Tuning
-
-```bash
-python train_resnet18_finetune.py
-```
-
----
-
-# Evaluation
-
-```bash
-python evaluate.py
-
-python resnet_evaluate.py
-```
-
----
-
-# Run API
-
-```bash
-uvicorn api.main:app --reload
-```
-
-Open:
-
-```
-http://127.0.0.1:8000/docs
-```
-
----
-
-# Docker
-
-```bash
-docker build -t brain-tumor-api .
-
-docker run -p 8000:8000 brain-tumor-api
-```
-
----
-
-# Technologies
-
-- Python
-- PyTorch
-- Torchvision
-- NumPy
-- Pandas
-- Matplotlib
-- Scikit-learn
-- FastAPI
-- Uvicorn
-- Docker
-
----
-
-# Future Improvements
-
-- EfficientNet-B0/B3
-- Vision Transformer (ViT)
-- Mixed precision training
-- Hyperparameter optimization
-- MLflow experiment tracking
-- CI/CD pipeline
-- Cloud deployment
-
----
-
-# Acknowledgements
-
-Thanks to the maintainers of the Brain MRI dataset and the PyTorch ecosystem.
-
----
-
-# License
-
-This project is released under the MIT License.
+curl -X POST [http://127.0.0.1:8000/predict](http://127.0.0.1:8000/predict) \
+  -H "accept: application/json" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@sample_mri.png;type=image/png"
