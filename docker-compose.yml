@@ -1,0 +1,58 @@
+services:
+
+  brain-tumor-api:
+
+    build:
+      context: .
+
+    image:
+      brain-tumor-api:latest
+
+    container_name:
+      brain-tumor-api
+
+
+    restart:
+      unless-stopped
+
+
+    ports:
+      - "8000:8000"
+
+
+    environment:
+
+      PYTHONUNBUFFERED: 1
+
+      MODEL_PATH:
+        /app/artifacts/resnet18_finetuned_best.pt
+
+
+    healthcheck:
+
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:8000/health"
+        ]
+
+      interval:
+        30s
+
+      timeout:
+        5s
+
+      retries:
+        3
+
+
+    deploy:
+
+      resources:
+
+        limits:
+
+          memory:
+            4G

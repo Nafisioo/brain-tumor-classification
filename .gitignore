@@ -1,46 +1,31 @@
-# Python
-__pycache__/
+.git
+.gitignore
+
+.venv
+
+__pycache__
 *.py[cod]
-*.so
-*.egg-info/
 
-# Virtual environment
-.venv/
+.ipynb_checkpoints
 
-# Jupyter
-.ipynb_checkpoints/
+notebooks/
 
-# macOS
-.DS_Store
-
-# PyTorch checkpoints
-*.pt
-*.pth
-
-# Dataset
 data/
 
-# IDE
+outputs/
+
+experiments/
+
+logs/
+
+tests/
+
 .vscode/
 .idea/
 
-# Logs
-logs/
-*.log
-
-# Environment
 .env
 
-# Outputs
-outputs/
+*.pt
+*.pth
 
-# Generated models
-models/
-
-# Testing
-.pytest_cache/
-.mypy_cache/
-
-# Experiment artifacts
-experiments/**/checkpoints/
-experiments/**/logs/
+.DS_Store

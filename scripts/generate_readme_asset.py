@@ -128,36 +128,6 @@ def process_gradcam_images():
     except FileNotFoundError:
         print(f"⚠️ Skipped Grad-CAM: Ensure {img_correct_path} and {img_wrong_path} exist in the root folder.")
 
-def process_swagger_images():
-    """Combines the four FastAPI screenshots vertically into one 300 DPI image."""
-    image_paths = [
-        "Screenshot 1405-05-07 at 15.40.03.png",
-        "Screenshot 1405-05-07 at 15.41.28.png",
-        "Screenshot 1405-05-07 at 15.42.43.png",
-        "Screenshot 1405-05-07 at 15.42.59.png"
-    ]
-    output_path = "assets/swagger.png"
-
-    try:
-        # Load all images
-        images = [Image.open(p) for p in image_paths]
-        
-        # Calculate canvas dimensions
-        total_width = max(img.width for img in images)
-        total_height = sum(img.height for img in images)
-
-        # Create canvas and paste images consecutively
-        combined_img = Image.new('RGB', (total_width, total_height), (255, 255, 255))
-        y_offset = 0
-        for img in images:
-            combined_img.paste(img, (0, y_offset))
-            y_offset += img.height
-
-        # Save at 300 DPI
-        combined_img.save(output_path, dpi=(300, 300))
-        print(f"✅ Generated: {output_path}")
-    except FileNotFoundError as e:
-        print(f"⚠️ Skipped Swagger: Missing screenshot file. {e}")
 
 # ==========================================
 # 4. DARK MODE ARCHITECTURE DIAGRAMS (Pillow)
@@ -252,7 +222,7 @@ if __name__ == "__main__":
     
     # Image Stitching
     process_gradcam_images()
-    process_swagger_images()
+    # process_swagger_images()  # Commented out as per the previous modification
     
     # Diagrams
     generate_all_diagrams()

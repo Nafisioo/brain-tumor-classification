@@ -1,45 +1,99 @@
 from pathlib import Path
 
+
+# =====================================================
+# Project root
+# =====================================================
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+
+# =====================================================
+# Dataset paths
+# =====================================================
 
 DATA_DIR = PROJECT_ROOT / "data"
 
-TRAIN_DIR = DATA_DIR / "raw" / "brain_mri" / "train"
-TEST_DIR = DATA_DIR / "raw" / "brain_mri" / "test"
 
-# ---------------------------------------------------
-# Active experiment configuration
-# ---------------------------------------------------
-
-EXPERIMENT_NAME = "resnet18_finetune"
-
-EXPERIMENT_DIR = (
-    PROJECT_ROOT
-    / "experiments"
-    / EXPERIMENT_NAME
+RAW_DATA_DIR = (
+    DATA_DIR
+    / "raw"
+    / "brain_mri"
 )
 
-CHECKPOINT_DIR = EXPERIMENT_DIR / "checkpoints"
 
-LOG_DIR = EXPERIMENT_DIR / "logs"
+TRAIN_DIR = RAW_DATA_DIR / "train"
 
-RESULT_DIR = EXPERIMENT_DIR / "results"
+VAL_DIR = RAW_DATA_DIR / "val"
 
-for directory in [
-    CHECKPOINT_DIR,
-    LOG_DIR,
-    RESULT_DIR,
-]:
+TEST_DIR = RAW_DATA_DIR / "test"
+
+
+
+# =====================================================
+# Experiment paths
+# =====================================================
+
+EXPERIMENTS_DIR = PROJECT_ROOT / "experiments"
+
+
+
+# =====================================================
+# Deployment artifacts
+# =====================================================
+
+ARTIFACTS_DIR = PROJECT_ROOT / "artifacts"
+
+
+DEPLOYMENT_MODEL_PATH = (
+    ARTIFACTS_DIR
+    / "resnet18_finetuned_best.pt"
+)
+
+
+CLASS_NAMES_PATH = (
+    ARTIFACTS_DIR
+    / "class_names.json"
+)
+
+
+
+# =====================================================
+# Output directories
+# =====================================================
+
+OUTPUTS_DIR = PROJECT_ROOT / "outputs"
+
+FIGURES_DIR = OUTPUTS_DIR / "figures"
+
+METRICS_DIR = OUTPUTS_DIR / "metrics"
+
+PREDICTIONS_DIR = OUTPUTS_DIR / "predictions"
+
+
+
+# =====================================================
+# Create runtime directories
+# =====================================================
+
+DIRECTORIES = [
+
+    ARTIFACTS_DIR,
+
+    OUTPUTS_DIR,
+
+    FIGURES_DIR,
+
+    METRICS_DIR,
+
+    PREDICTIONS_DIR,
+
+]
+
+
+for directory in DIRECTORIES:
 
     directory.mkdir(
         parents=True,
         exist_ok=True
     )
-
-# ---------------------------------------------------
-# Deployment configuration
-# ---------------------------------------------------
-ARTIFACTS_DIR = PROJECT_ROOT / "artifacts"
-DEPLOYMENT_MODEL_PATH = ARTIFACTS_DIR / "resnet18_finetuned_best.pt"
-CLASS_NAMES_PATH = ARTIFACTS_DIR / "class_names.json"
-ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
