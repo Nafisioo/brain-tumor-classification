@@ -10,27 +10,16 @@ def get_model(
 ):
 
     models = {
-
         "cnn_baseline_v1": CNNBaseline,
-
         "cnn_baseline_v2": CNNBaselineV2,
-
     }
-
 
     if model_name not in models:
 
-        raise ValueError(
-            f"Unknown model: {model_name}"
-        )
-
+        raise ValueError(f"Unknown model: {model_name}")
 
     model_class = models[model_name]
 
-
-    model = model_class(
-        num_classes=num_classes
-    )
-
+    model = model_class(num_classes=num_classes)
 
     return model

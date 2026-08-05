@@ -3,14 +3,8 @@ import torch
 from src.utils.metrics import calculate_metrics
 
 
-
 @torch.no_grad()
-def evaluate(
-    model,
-    loader,
-    criterion,
-    device
-):
+def evaluate(model, loader, criterion, device):
     """
     Evaluate model.
 
@@ -29,12 +23,9 @@ def evaluate(
             confidence
     """
 
-
     model.eval()
 
-
     total_loss = 0.0
-
 
     y_pred = []
     y_true = []
@@ -42,8 +33,6 @@ def evaluate(
     confidences = []
 
     all_paths = []
-
-
 
     for batch in loader:
         if len(batch) == 3:
@@ -66,18 +55,15 @@ def evaluate(
         y_true.extend(labels.cpu().numpy())
         confidences.extend(confidence.cpu().numpy())
         all_paths.extend(paths)
-    metrics = calculate_metrics(
-        y_pred,
-        y_true
+    metrics = calculate_metrics(y_pred, y_true)
+
+    metrics.update(
+        {
+            "loss": total_loss / len(loader),
+            "predictions": y_pred,
+            "labels": y_true,
+            "paths": all_paths,
+            "confidence": confidences,
+        }
     )
-
-
-
-    metrics.update({
-        "loss": total_loss / len(loader),
-        "predictions": y_pred,
-        "labels": y_true,
-        "paths": all_paths,
-        "confidence": confidences
-    })
     return metrics

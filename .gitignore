@@ -29,3 +29,7 @@ tests/
 *.pth
 
 .DS_Store
+
+# Ignore downloaded model weights and temp files
+artifacts/*.pt
+artifacts/*.download

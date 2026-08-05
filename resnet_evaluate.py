@@ -35,10 +35,7 @@ def main():
     model = load_checkpoint(
         model=model,
         optimizer=None,
-        path=(
-            config.checkpoint_dir
-            / "best_model.pt"
-        ),
+        path=(config.checkpoint_dir / "best_model.pt"),
         device=device,
     )
 
@@ -59,10 +56,7 @@ def main():
     # --------------------------------------------------
     # Create experiment folders
     # --------------------------------------------------
-    config.result_dir.mkdir(
-        parents=True,
-        exist_ok=True
-    )
+    config.result_dir.mkdir(parents=True, exist_ok=True)
 
     # --------------------------------------------------
     # Save scalar metrics
@@ -79,19 +73,12 @@ def main():
         config.result_dir / "metrics.json",
         "w",
     ) as f:
-        json.dump(
-            scalar_metrics,
-            f,
-            indent=4
-        )
+        json.dump(scalar_metrics, f, indent=4)
 
     # --------------------------------------------------
     # Save confusion matrix
     # --------------------------------------------------
-    np.save(
-        config.result_dir / "confusion_matrix.npy",
-        metrics["confusion_matrix"]
-    )
+    np.save(config.result_dir / "confusion_matrix.npy", metrics["confusion_matrix"])
 
     # --------------------------------------------------
     # Save predictions
@@ -105,10 +92,7 @@ def main():
         }
     )
 
-    prediction_df.to_csv(
-        config.result_dir / "predictions.csv",
-        index=False
-    )
+    prediction_df.to_csv(config.result_dir / "predictions.csv", index=False)
 
     print("ResNet18 evaluation completed successfully ✓")
 

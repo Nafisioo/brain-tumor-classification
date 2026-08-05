@@ -16,79 +16,45 @@ from .exceptions import (
 logger = logging.getLogger(__name__)
 
 
-
 def register_exception_handlers(app: FastAPI):
 
-
-    @app.exception_handler(
-        BrainTumorAPIException
-    )
+    @app.exception_handler(BrainTumorAPIException)
     async def application_exception_handler(
         request: Request,
         exc: BrainTumorAPIException,
     ):
 
-        logger.error(
-            f"{exc.error_code}: {exc.message}"
-        )
-
+        logger.error(f"{exc.error_code}: {exc.message}")
 
         return JSONResponse(
-
             status_code=400,
-
             content={
-
                 "error": {
-
                     "type": exc.error_code,
-
                     "message": exc.message,
-
-                    "path": request.url.path
-
+                    "path": request.url.path,
                 }
-
-            }
-
+            },
         )
 
-
-
-    @app.exception_handler(
-        RequestValidationError
-    )
+    @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(
         request: Request,
         exc: RequestValidationError,
     ):
 
-
         return JSONResponse(
-
             status_code=422,
-
             content={
-
                 "error": {
-
                     "type": "validation_error",
-
                     "message": "Invalid request payload.",
-
-                    "details": exc.errors()
-
+                    "details": exc.errors(),
                 }
-
-            }
-
+            },
         )
 
-
-
-    @app.exception_handler(
-        Exception
-    )
+    @app.exception_handler(Exception)
     async def global_exception_handler(
         request: Request,
         exc: Exception,
@@ -96,22 +62,12 @@ def register_exception_handlers(app: FastAPI):
 
         logger.exception(exc)
 
-
         return JSONResponse(
-
             status_code=500,
-
             content={
-
                 "error": {
-
                     "type": "internal_server_error",
-
-                    "message":
-                        "Unexpected server error."
-
+                    "message": "Unexpected server error.",
                 }
-
-            }
-
+            },
         )

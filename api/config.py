@@ -9,29 +9,16 @@ MODEL_NAME = "resnet18_finetune"
 
 
 CHECKPOINT_PATH = Path(
-    os.getenv(
-        "MODEL_PATH",
-        BASE_DIR /
-        "artifacts" /
-        "resnet18_finetuned_best.pt"
-    )
+    os.getenv("MODEL_PATH", BASE_DIR / "artifacts" / "resnet18_finetuned_best.pt")
 )
 
 
 CLASS_NAMES_PATH = Path(
-    os.getenv(
-        "CLASS_NAMES_PATH",
-        BASE_DIR /
-        "artifacts" /
-        "class_names.json"
-    )
+    os.getenv("CLASS_NAMES_PATH", BASE_DIR / "artifacts" / "class_names.json")
 )
 
 
-DEVICE = os.getenv(
-    "DEVICE",
-    "cpu"
-)
+DEVICE = os.getenv("DEVICE", "cpu")
 
 
 API_VERSION = "1.0.0"

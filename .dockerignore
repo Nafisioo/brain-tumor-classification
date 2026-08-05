@@ -1,23 +1,22 @@
-.git
-.gitignore
-
-.venv
-__pycache__
+# Python
+__pycache__/
 *.pyc
 
-.ipynb_checkpoints
+# Git
+.git
 
-outputs/
-experiments/
-tests/
+# Virtual environments
+.venv/
 
-notebooks/
+# Notebooks
+.ipynb_checkpoints/
 
-data/
+# pytest
+.pytest_cache/
 
-.vscode
-.idea
+# coverage
+.coverage
+htmlcov/
 
-.env
-
-*.DS_Store
+# model only
+artifacts/resnet18_finetuned_best.pt

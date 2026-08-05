@@ -1,62 +1,92 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 
+####################################################
+# Metadata
+####################################################
 
 LABEL maintainer="Nafiseh"
 LABEL project="Brain Tumor MRI Classification"
-LABEL version="1.0"
+LABEL version="1.0.0"
+LABEL org.opencontainers.image.source="https://github.com/Nafisioo/brain-tumor-classification"
 
+####################################################
+# Environment
+####################################################
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app
 
+####################################################
+# Working directory
+####################################################
 
 WORKDIR /app
 
-
+####################################################
+# System dependencies
+####################################################
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender1 \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+        curl \
+        ca-certificates \
+        libglib2.0-0 \
+        libsm6 \
+        libxext6 \
+        libxrender1 && \
+    rm -rf /var/lib/apt/lists/*
 
-
+####################################################
+# Python dependencies
+####################################################
 
 COPY requirements.txt .
-
 
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
+####################################################
+# Application source
+####################################################
 
+COPY api/ ./api/
+COPY inference/ ./inference/
+COPY src/ ./src/
+COPY configs/ ./configs/
 
-COPY api ./api
-COPY inference ./inference
-COPY src ./src
-COPY configs ./configs
-COPY artifacts ./artifacts
+####################################################
+# Lightweight artifacts
+####################################################
 
+COPY artifacts/class_names.json ./artifacts/
 
+####################################################
+# Startup scripts
+####################################################
 
-# create non-root user
+COPY scripts/ ./scripts/
 
-RUN useradd -m appuser
+####################################################
+# Create runtime user
+####################################################
 
+RUN useradd --create-home --shell /bin/bash appuser && \
+    mkdir -p /app/artifacts && \
+    chmod +x /app/scripts/*.sh && \
+    chown -R appuser:appuser /app
 
-RUN chown -R appuser:appuser /app
-
+####################################################
+# Runtime
+####################################################
 
 USER appuser
 
-
-
 EXPOSE 8000
 
-
+####################################################
+# Health Check
+####################################################
 
 HEALTHCHECK \
     --interval=30s \
@@ -65,6 +95,8 @@ HEALTHCHECK \
     --retries=3 \
     CMD curl --fail http://localhost:8000/health || exit 1
 
+####################################################
+# Container Entrypoint
+####################################################
 
-
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+ENTRYPOINT ["/app/scripts/entrypoint.sh"]

@@ -1,0 +1,15 @@
+{
+  "model": "ResNet18",
+  "framework": "PyTorch",
+  "task": "Brain MRI tumor classification",
+  "classes": [
+    "glioma_tumor",
+    "meningioma_tumor",
+    "no_tumor",
+    "pituitary_tumor"
+  ],
+  "input_size": [224,224],
+  "normalization": "ImageNet",
+  "accuracy": 0.9778,
+  "f1_score": 0.9801
+}

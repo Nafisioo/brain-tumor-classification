@@ -6,7 +6,6 @@ from configs.paths import (
 )
 
 
-
 # =====================================================
 # API configuration
 # =====================================================
@@ -14,7 +13,6 @@ from configs.paths import (
 API_NAME = "Brain Tumor MRI Classification API"
 
 API_VERSION = "1.0.0"
-
 
 
 # =====================================================
@@ -26,16 +24,10 @@ MODEL_NAME = "resnet18_finetune"
 MODEL_ARCHITECTURE = "ResNet18"
 
 
-
-CHECKPOINT_PATH = (
-    DEPLOYMENT_MODEL_PATH
-)
+CHECKPOINT_PATH = DEPLOYMENT_MODEL_PATH
 
 
-CLASS_NAMES_FILE = (
-    CLASS_NAMES_PATH
-)
-
+CLASS_NAMES_FILE = CLASS_NAMES_PATH
 
 
 # =====================================================
@@ -45,19 +37,11 @@ CLASS_NAMES_FILE = (
 NUM_CLASSES = 4
 
 
-
 # =====================================================
 # Runtime
 # =====================================================
 
-SUPPORTED_EXTENSIONS = [
-
-    ".png",
-    ".jpg",
-    ".jpeg"
-
-]
-
+SUPPORTED_EXTENSIONS = [".png", ".jpg", ".jpeg"]
 
 
 MAX_UPLOAD_SIZE_MB = 10

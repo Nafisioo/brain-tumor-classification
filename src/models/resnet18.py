@@ -25,11 +25,7 @@ class ResNet18Transfer(nn.Module):
 
         super().__init__()
 
-        weights = (
-            ResNet18_Weights.DEFAULT
-            if pretrained
-            else None
-        )
+        weights = ResNet18_Weights.DEFAULT if pretrained else None
 
         self.model = resnet18(weights=weights)
 
@@ -59,9 +55,7 @@ class ResNet18Transfer(nn.Module):
         in_features = self.model.fc.in_features
 
         self.model.fc = nn.Sequential(
-
             nn.Dropout(dropout),
-
             nn.Linear(
                 in_features,
                 num_classes,
@@ -76,7 +70,3 @@ class ResNet18Transfer(nn.Module):
     def forward(self, x):
 
         return self.model(x)
-
-       
-
-    

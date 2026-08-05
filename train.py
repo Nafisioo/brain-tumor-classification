@@ -29,8 +29,8 @@ def main():
     train_loader, val_loader, test_loader = create_dataloaders()
 
     model = get_model(
-    model_name=MODEL_NAME,
-    num_classes=NUM_CLASSES,
+        model_name=MODEL_NAME,
+        num_classes=NUM_CLASSES,
     ).to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -99,4 +99,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

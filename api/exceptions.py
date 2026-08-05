@@ -22,7 +22,6 @@ class BrainTumorAPIException(Exception):
         super().__init__(message)
 
 
-
 class ModelNotLoadedError(BrainTumorAPIException):
     """
     Raised when inference model cannot be loaded.
@@ -36,7 +35,6 @@ class ModelNotLoadedError(BrainTumorAPIException):
             message=message,
             error_code="model_not_loaded",
         )
-
 
 
 class CheckpointNotFoundError(BrainTumorAPIException):
@@ -54,7 +52,6 @@ class CheckpointNotFoundError(BrainTumorAPIException):
         )
 
 
-
 class InvalidImageError(BrainTumorAPIException):
     """
     Raised when uploaded image cannot be processed.
@@ -68,7 +65,6 @@ class InvalidImageError(BrainTumorAPIException):
             message=message,
             error_code="invalid_image",
         )
-
 
 
 class PredictionError(BrainTumorAPIException):

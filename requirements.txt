@@ -1,18 +1,15 @@
+# Web Framework & Server
 fastapi>=0.115,<1.0
 uvicorn[standard]>=0.30,<1.0
 python-multipart>=0.0.9
 pydantic>=2.8,<3.0
 
+# Inference Engine
 torch>=2.6,<3.0
 torchvision>=0.21,<1.0
 
+# Core Data & Image Processing
 numpy>=1.26,<3.0
-pandas>=2.2,<3.0
-scikit-learn>=1.5,<2.0
 pillow>=10.0,<12.0
-
-matplotlib>=3.8,<4.0
-seaborn>=0.13,<1.0
-pytest
-pytest-cov
-httpx
+scikit-learn>=1.5,<2.0
+pandas>=2.2,<3.0

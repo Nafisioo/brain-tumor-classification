@@ -24,8 +24,8 @@ def main():
     _, _, test_loader = create_dataloaders()
 
     model = get_model(
-    model_name=MODEL_NAME,
-    num_classes=NUM_CLASSES,
+        model_name=MODEL_NAME,
+        num_classes=NUM_CLASSES,
     ).to(device)
 
     model = load_checkpoint(
