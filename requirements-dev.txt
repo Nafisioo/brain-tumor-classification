@@ -1,0 +1,15 @@
+# Include production dependencies
+-r requirements.txt
+
+# Testing & API Client
+pytest
+pytest-cov
+httpx
+
+# Visualization & Data Analysis
+matplotlib>=3.8,<4.0
+seaborn>=0.13,<1.0
+
+# Optional: Linting & Code Quality
+black
+flake8
