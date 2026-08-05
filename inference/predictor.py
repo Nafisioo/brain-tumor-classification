@@ -24,7 +24,6 @@ from api.exceptions import (
     InvalidImageError,
 )
 
-
 logger = get_logger(__name__)
 
 

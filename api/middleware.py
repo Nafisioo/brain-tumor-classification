@@ -12,7 +12,6 @@ from .exceptions import (
     BrainTumorAPIException,
 )
 
-
 logger = logging.getLogger(__name__)
 
 
