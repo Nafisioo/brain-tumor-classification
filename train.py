@@ -9,7 +9,6 @@ from configs.paths import (
 
 from src.data.datamodule import create_dataloaders
 from src.models.model_factory import get_model
-from src.models.cnn_baseline_v2 import CNNBaselineV2
 from src.training.trainer import train_one_epoch
 from src.training.evaluator import evaluate
 from src.training.checkpoints import save_checkpoint
@@ -81,7 +80,7 @@ def main():
             f"Epoch {epoch+1}/{config.epochs} | "
             f"Train Loss: {train_loss:.4f} | Train Acc: {train_acc:.4f} | "
             f"Val Loss: {val_metrics['loss']:.4f} | Val Acc: {val_metrics['accuracy']:.4f}"
-        )
+        ) # noqa: E501
 
         if val_metrics["accuracy"] > best_val_accuracy:
             best_val_accuracy = val_metrics["accuracy"]

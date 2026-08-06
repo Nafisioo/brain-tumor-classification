@@ -1,5 +1,3 @@
-import torch.nn as nn
-
 from src.models.cnn_baseline import CNNBaseline
 from src.models.cnn_baseline_v2 import CNNBaselineV2
 

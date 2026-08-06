@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from configs.paths import (
     DEPLOYMENT_MODEL_PATH,
     CLASS_NAMES_PATH,
