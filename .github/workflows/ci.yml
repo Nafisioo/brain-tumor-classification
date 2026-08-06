@@ -1,10 +1,114 @@
-- name: Start container with mounted artifact
+name: Brain Tumor API CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Run Tests & Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Run Linting
+        run: |
+          # Fails the pipeline if code isn't formatted properly
+          black --check .
+          flake8 .
+
+      - name: Create dummy model checkpoint and test image for CI
+        run: |
+          mkdir -p artifacts
+          python -c "from src.models.resnet18 import ResNet18Transfer; import torch; model = ResNet18Transfer(num_classes=4); torch.save(model.state_dict(), 'artifacts/resnet18_finetuned_best.pt')"
+          
+          mkdir -p data/raw/brain_mri/test/no_tumor
+          python -c "from PIL import Image; img = Image.new('RGB', (224, 224), color = 'black'); img.save('data/raw/brain_mri/test/no_tumor/bright_img_32_7522.png')"
+
+      - name: Run pytest
+        run: |
+          pytest \
+          --cov=api \
+          --cov=inference \
+          --cov-report=term-missing
+
+  docker:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python for Artifact Generation
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Generate dummy model checkpoint for Docker
+        run: |
+          mkdir -p artifacts
+          python -c "from src.models.resnet18 import ResNet18Transfer; import torch; model = ResNet18Transfer(num_classes=4); torch.save(model.state_dict(), 'artifacts/resnet18_finetuned_best.pt')"
+
+      - name: Build Docker image
+        run: |
+          docker build \
+          -t brain-tumor-api:test .
+
+      - name: Start container with mounted artifact
         run: |
           docker run \
           -d \
           --name brain-tumor-api-test \
           -p 8000:8000 \
           -v ${{ github.workspace }}/artifacts:/app/artifacts \
-          --entrypoint uvicorn \                  
+          --entrypoint uvicorn \
           brain-tumor-api:test \
-          api.main:app --host 0.0.0.0 --port 8000     
+          api.main:app --host 0.0.0.0 --port 8000
+
+      - name: Wait for API & Health Check
+        run: |
+          echo "Waiting for API to spin up..."
+          curl --fail \
+               --retry 15 \
+               --retry-delay 2 \
+               --retry-all-errors \
+               --retry-connrefused \
+               http://localhost:8000/health
+
+      - name: Print Container Logs on Failure
+        if: failure()
+        run: |
+          echo "Health check failed! Printing container logs:"
+          docker logs brain-tumor-api-test
+
+      - name: Stop container
+        if: always()
+        run: |
+          docker stop brain-tumor-api-test || true   
