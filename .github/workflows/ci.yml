@@ -88,7 +88,7 @@ jobs:
           --name brain-tumor-api-test \
           -p 8000:8000 \
           -v ${{ github.workspace }}/artifacts:/app/artifacts \
-          brain-tumor-api-test
+          brain-tumor-api:test
 
       - name: Wait for API & Health Check
         run: |
