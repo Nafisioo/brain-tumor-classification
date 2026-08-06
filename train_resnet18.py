@@ -73,8 +73,7 @@ for epoch in range(config.epochs):
 
     scheduler.step(val_metrics["accuracy"])
 
-    print(
-        f"""
+    print(f"""
 
 Epoch {epoch+1}/{config.epochs}
 
@@ -85,8 +84,7 @@ Train Accuracy:
 Validation Accuracy:
 {val_metrics["accuracy"]:.4f}
 
-"""
-    )
+""")
 
     if val_metrics["accuracy"] > best_accuracy:
 
