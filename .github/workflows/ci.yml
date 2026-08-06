@@ -40,7 +40,7 @@ jobs:
       - name: Create dummy model checkpoint for CI testing
         run: |
           mkdir -p artifacts
-          python -c "import torch, torchvision.models as models; torch.save(models.resnet18().state_dict(), 'artifacts/resnet18_finetuned_best.pt')"
+          python -c "from src.models.resnet18 import ResNet18Transfer; import torch; model = ResNet18Transfer(num_classes=4); torch.save(model.state_dict(), 'artifacts/resnet18_finetuned_best.pt')"
 
       - name: Run pytest
         run: |
