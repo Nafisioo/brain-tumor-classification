@@ -60,18 +60,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Generate dummy model checkpoint for Docker
+        run: |
+          mkdir -p artifacts
+          python -c "from src.models.resnet18 import ResNet18Transfer; import torch; model = ResNet18Transfer(num_classes=4); torch.save(model.state_dict(), 'artifacts/resnet18_finetuned_best.pt')"
+
       - name: Build Docker image
         run: |
           docker build \
           -t brain-tumor-api:test .
 
-      - name: Start container
+      - name: Start container with mounted artifact
         run: |
           docker run \
           -d \
           --name brain-tumor-api-test \
           -p 8000:8000 \
-          brain-tumor-api:test
+          -v ${{ github.workspace }}/artifacts:/app/artifacts \
+          brain-tumor-api-test
 
       - name: Wait for API & Health Check
         run: |
