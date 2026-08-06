@@ -1,15 +1,10 @@
 def test_health_endpoint(client):
 
-    response = client.get(
-        "/health"
-    )
-
+    response = client.get("/health")
 
     assert response.status_code == 200
 
-
     data = response.json()
-
 
     assert data["status"] == "ok"
 
@@ -17,33 +12,21 @@ def test_health_endpoint(client):
 
     assert data["model_name"] == "resnet18_finetune"
 
-    assert data["device"] in [
-        "cpu",
-        "cuda",
-        "mps"
-    ]
-
+    assert data["device"] in ["cpu", "cuda", "mps"]
 
 
 def test_health_schema(client):
 
-    response = client.get(
-        "/health"
-    )
-
+    response = client.get("/health")
 
     data = response.json()
-
 
     required_fields = {
         "status",
         "model_loaded",
         "model_name",
         "checkpoint_path",
-        "device"
+        "device",
     }
 
-
-    assert required_fields.issubset(
-        data.keys()
-    )
+    assert required_fields.issubset(data.keys())
