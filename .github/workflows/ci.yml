@@ -37,6 +37,11 @@ jobs:
           black --check .
           flake8 .
 
+      - name: Create dummy model checkpoint for CI testing
+        run: |
+          mkdir -p artifacts
+          python -c "import torch, torchvision.models as models; torch.save(models.resnet18().state_dict(), 'artifacts/resnet18_finetuned_best.pt')"
+
       - name: Run pytest
         run: |
           pytest \
