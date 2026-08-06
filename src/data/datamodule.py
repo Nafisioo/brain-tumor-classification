@@ -38,9 +38,7 @@ def create_dataloaders(
     # Base dataset (no transforms)
     # --------------------------------------------------
 
-    base_train_dataset = ImageFolder(
-        root=TRAIN_DIR
-    )
+    base_train_dataset = ImageFolder(root=TRAIN_DIR)
 
     # --------------------------------------------------
     # Train / Validation split
@@ -90,9 +88,7 @@ def create_dataloaders(
         ),
     )
 
-    test_dataset = ImageFolderWithPaths(
-        dataset=test_dataset
-    )
+    test_dataset = ImageFolderWithPaths(dataset=test_dataset)
 
     # --------------------------------------------------
     # DataLoaders

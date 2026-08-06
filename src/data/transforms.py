@@ -41,28 +41,25 @@ def get_train_transforms(
 
     mean, std = get_normalization(pretrained)
 
-    return transforms.Compose([
-        transforms.Resize((image_size, image_size)),
-
-        transforms.RandomHorizontalFlip(p=0.5),
-
-        transforms.RandomRotation(
-            degrees=8,
-            interpolation=transforms.InterpolationMode.BILINEAR,
-        ),
-
-        transforms.ColorJitter(
-            brightness=0.10,
-            contrast=0.10,
-        ),
-
-        transforms.ToTensor(),
-
-        transforms.Normalize(
-            mean=mean,
-            std=std,
-        ),
-    ])
+    return transforms.Compose(
+        [
+            transforms.Resize((image_size, image_size)),
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomRotation(
+                degrees=8,
+                interpolation=transforms.InterpolationMode.BILINEAR,
+            ),
+            transforms.ColorJitter(
+                brightness=0.10,
+                contrast=0.10,
+            ),
+            transforms.ToTensor(),
+            transforms.Normalize(
+                mean=mean,
+                std=std,
+            ),
+        ]
+    )
 
 
 def get_test_transforms(
@@ -75,8 +72,10 @@ def get_test_transforms(
 
     mean, std = get_normalization(pretrained)
 
-    return transforms.Compose([
-        transforms.Resize((image_size, image_size)),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=mean, std=std),
-    ])
+    return transforms.Compose(
+        [
+            transforms.Resize((image_size, image_size)),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=mean, std=std),
+        ]
+    )

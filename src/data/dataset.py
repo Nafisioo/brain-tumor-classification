@@ -11,13 +11,7 @@ class TransformSubset(Dataset):
     preprocessing pipelines.
     """
 
-    def __init__(
-        self,
-        dataset,
-        indices,
-        transform=None,
-        target_transform=None
-    ):
+    def __init__(self, dataset, indices, transform=None, target_transform=None):
         self.dataset = dataset
         self.indices = indices
         self.transform = transform
@@ -26,11 +20,9 @@ class TransformSubset(Dataset):
         self.classes = getattr(dataset, "classes", None)
         self.class_to_idx = getattr(dataset, "class_to_idx", None)
 
-
     def __len__(self):
 
         return len(self.indices)
-
 
     def __getitem__(self, idx):
 
