@@ -41,9 +41,6 @@ class TransformSubset(Dataset):
         return image, label
 
 
-from torch.utils.data import Dataset
-
-
 class ImageFolderWithPaths(Dataset):
     """
     Wrap ImageFolder to also return the image file path.
