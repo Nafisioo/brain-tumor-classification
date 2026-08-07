@@ -31,3 +31,6 @@ logs/
 # Ignore downloaded model weights and temp files
 artifacts/*.pt
 artifacts/*.download
+
+# temporary API testing files
+fake*
