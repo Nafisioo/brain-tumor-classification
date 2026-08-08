@@ -121,7 +121,7 @@ def generate_training_curve():
 
 
 def generate_model_comparison():
-    """Recreates the model comparison and test loss charts side-by-side at true 300 DPI."""  # noqa: E501
+    """Recreates the model comparison and test loss charts side-by-side at true 300 DPI."""
     models = [
         "CNN Baseline V1",
         "CNN Baseline V2",
@@ -131,7 +131,6 @@ def generate_model_comparison():
     x = np.arange(len(models))
     width = 0.15
 
-    # Data from your README table
     acc = [0.8112, 0.9641, 0.8180, 0.9778]
     prec = [0.8273, 0.9643, 0.8205, 0.9804]
     rec = [0.8121, 0.9680, 0.8189, 0.9800]
@@ -171,7 +170,7 @@ def generate_model_comparison():
 
 
 def process_gradcam_images():
-    """Combines the two Grad-CAM screenshots vertically and saves at 300 DPI."""
+    """Stacks the two Grad-CAM comparison figures into one panel, rendered with the same matplotlib/300 DPI pipeline as the other assets."""
     img_correct_path = "gradcam_1.png"
     img_wrong_path = "gradcam_2.png"
     output_path = "assets/grad_cam.png"
@@ -179,18 +178,20 @@ def process_gradcam_images():
     try:
         img_correct = Image.open(img_correct_path)
         img_wrong = Image.open(img_wrong_path)
-        total_width = max(img_correct.width, img_wrong.width)
-        total_height = img_correct.height + img_wrong.height
 
-        combined_img = Image.new("RGB", (total_width, total_height), (255, 255, 255))
-        combined_img.paste(img_correct, (0, 0))
-        combined_img.paste(img_wrong, (0, img_correct.height))
+        fig, axes = plt.subplots(2, 1, figsize=(12, 11), dpi=300)
+        axes[0].imshow(img_correct)
+        axes[0].axis("off")
+        axes[1].imshow(img_wrong)
+        axes[1].axis("off")
 
-        combined_img.save(output_path, dpi=(300, 300))
+        plt.tight_layout()
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+        plt.close()
         print(f"✅ Generated: {output_path}")
     except FileNotFoundError:
         print(
-            f"⚠️ Skipped Grad-CAM: Ensure {img_correct_path} and {img_wrong_path} exist in the root folder."  # noqa: E501
+            f"⚠️ Skipped Grad-CAM: Ensure {img_correct_path} and {img_wrong_path} exist in the root folder."
         )
 
 
@@ -306,7 +307,21 @@ def generate_all_diagrams():
         highlights=["Training", "Evaluation", "Deployment"],
     )
 
-    # 3. CNN V2 & ResNet18 Layer Stacks
+    # 3. CI/CD Pipeline
+    draw_flow_diagram(
+        [
+            "Git Tag Push (v*.*.*)",
+            "GitHub Actions Runner",
+            "Lint & Unit Tests",
+            "Build Docker Image",
+            "Authenticate Docker Hub",
+            "Push to Registry (nafis3)",
+        ],
+        "assets/ci_cd.png",
+        highlights=["GitHub Actions Runner", "Build Docker Image", "Push to Registry (nafis3)"],
+    )
+
+    # 4. CNN V2 & ResNet18 Layer Stacks
     layer_stack = [
         "224×224",
         "Conv32",
@@ -353,7 +368,6 @@ if __name__ == "__main__":
 
     # Image Stitching
     process_gradcam_images()
-    # process_swagger_images()  # Commented out as per the previous modification
 
     # Diagrams
     generate_all_diagrams()
