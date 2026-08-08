@@ -318,7 +318,11 @@ def generate_all_diagrams():
             "Push to Registry (nafis3)",
         ],
         "assets/ci_cd.png",
-        highlights=["GitHub Actions Runner", "Build Docker Image", "Push to Registry (nafis3)"],
+        highlights=[
+            "GitHub Actions Runner",
+            "Build Docker Image",
+            "Push to Registry (nafis3)",
+        ],
     )
 
     # 4. CNN V2 & ResNet18 Layer Stacks
