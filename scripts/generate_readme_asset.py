@@ -121,7 +121,7 @@ def generate_training_curve():
 
 
 def generate_model_comparison():
-    """Recreates the model comparison and test loss charts side-by-side at true 300 DPI."""
+    """Recreates the model comparison and test loss charts side-by-side at true 300 DPI."""  # noqa: E501
     models = [
         "CNN Baseline V1",
         "CNN Baseline V2",
@@ -170,7 +170,7 @@ def generate_model_comparison():
 
 
 def process_gradcam_images():
-    """Stacks the two Grad-CAM comparison figures into one panel, rendered with the same matplotlib/300 DPI pipeline as the other assets."""
+    """Stacks the two Grad-CAM comparison figures into one panel, rendered with the same matplotlib/300 DPI pipeline as the other assets."""  # noqa: E501
     img_correct_path = "gradcam_1.png"
     img_wrong_path = "gradcam_2.png"
     output_path = "assets/grad_cam.png"
@@ -191,7 +191,7 @@ def process_gradcam_images():
         print(f"✅ Generated: {output_path}")
     except FileNotFoundError:
         print(
-            f"⚠️ Skipped Grad-CAM: Ensure {img_correct_path} and {img_wrong_path} exist in the root folder."
+            f"⚠️ Skipped Grad-CAM: Ensure {img_correct_path} and {img_wrong_path} exist in the root folder."  # noqa: E501
         )
 
 
