@@ -185,30 +185,56 @@ flowchart TD
 brain-tumor-classification/
 ├── .github/
 │   └── workflows/
-│       ├── ci.yml              # Lint + test + Docker build/health-check on push/PR
-│       └── cd.yml              # Build & push Docker image on tagged release
-├── api/                        # FastAPI app: routes, schemas, startup logic
-├── inference/                  # Model loading & prediction logic
-├── tests/                      # Pytest suite
+│       ├── ci.yml               # Lint + test + Docker build/health-check on push/PR
+│       └── cd.yml               # Build & push Docker image on tagged release
+├── api/                         # FastAPI app: routes, schemas, middleware, startup
+│   ├── main.py
+│   ├── config.py
+│   ├── schemas.py
+│   ├── middleware.py
+│   ├── exceptions.py
+│   └── logger.py
+├── inference/                   # Model loading & prediction logic
+│   ├── predictor.py
+│   └── preprocessing.py
+├── src/                         # Training source
+│   ├── models/                  # CNN baselines, ResNet18, model factory
+│   ├── training/                # Trainer, evaluator, checkpointing
+│   └── utils/                   # Device, seed, metrics, history helpers
+├── configs/                     # Training & path configuration
+├── tests/                       # Pytest suite
+│   ├── conftest.py
+│   ├── test_api.py
+│   ├── test_health.py
+│   ├── test_model.py
+│   └── test_prediction.py
 ├── scripts/
-│   └── generate_readme_asset.py
-├── assets/
-│   ├── banner.png
-│   ├── ci_pipeline.png
-│   └── grad_cam.png
-├── data/                       # Dataset (not committed — see Dataset section)
-├── models/                     # Saved model checkpoints
-├── train.py                    # Custom CNN baseline training
-├── train_resnet18.py           # ResNet18 feature extraction
-├── train_resnet18_finetune.py  # ResNet18 fine-tuning
+│   ├── download_checkpoint.py
+│   ├── download_model.sh
+│   ├── entrypoint.sh
+│   ├── generate_banner.py
+│   ├── generate_readme_asset.py
+│   └── setup_model.sh
+├── notebooks/                   # Exploration & evaluation notebooks (01–08)
+├── experiments/                 # Per-model checkpoints, logs & results
+├── artifacts/                   # Trained model + metrics (local)
+├── release/                     # Versioned model artifacts (GitHub Releases)
+├── outputs/                     # Generated figures, metrics, predictions
+├── assets/                      # README images
+├── train.py
+├── train_resnet18.py
+├── train_resnet18_finetune.py
+├── evaluate.py
+├── resnet_evaluate.py
 ├── Dockerfile
 ├── docker-compose.yml
+├── requirements.txt
 ├── requirements-dev.txt
+├── pyproject.toml
+├── pytest.ini
 ├── LICENSE
 └── README.md
 ```
-
-> Folder contents are illustrative — adjust filenames inside `api/`, `inference/`, and `tests/` to match your repo exactly.
 
 ---
 
@@ -243,7 +269,7 @@ cd brain-tumor-classification
 
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements-dev.txt
+pip install -r requirements-dev.txt   # installs requirements.txt + test/lint tools
 ```
 
 Train the models locally:
